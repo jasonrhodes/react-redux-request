@@ -49,7 +49,7 @@ export function reducer(state = {}, action = {}) {
     case ACTION_TYPES.DID_UNMOUNT:
       return {
         ...state,
-        [id]: get(state[id], 'status') === STATUS.SUCCESS ? state[id] : {}
+        [id]: get(state[id], 'status') === STATUS.FAILURE ? {} : state[id]
       };
 
     default:
