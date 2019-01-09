@@ -17,8 +17,11 @@ export class ReactReduxRequestView extends React.Component {
     const state = (this.context.store || this.props.store).getState();
     const didArgsChange = getDidArgsChange(state, args, id);
 
+    console.log('maybe fetching data', id);
+
     const shouldFetchData = !preventFetch && didArgsChange;
     if (!shouldFetchData) {
+      console.log('should fetch data is false', id);
       return;
     }
 
@@ -28,9 +31,11 @@ export class ReactReduxRequestView extends React.Component {
       type: ACTION_TYPES.DID_INIT_REQUEST
     });
     const fetchId = getUniqueId();
+    console.log(`creating ${id} fetchID`, fetchId);
     this.fetchId = fetchId;
     try {
       const data = await fn(...args);
+      console.log(`received ${id} result`, fetchId, 'vs', this.fetchId);
       if (fetchId === this.fetchId) {
         dispatch({
           args,
@@ -40,6 +45,7 @@ export class ReactReduxRequestView extends React.Component {
         });
       }
     } catch (error) {
+      console.log('error caught', id, fetchId, this.fetchId);
       if (fetchId === this.fetchId) {
         console.error(error);
         dispatch({
