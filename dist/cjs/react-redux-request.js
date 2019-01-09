@@ -4572,16 +4572,21 @@ var ReactReduxRequestView = function (_React$Component) {
 
                 state = (this.context.store || this.props.store).getState();
                 didArgsChange = getDidArgsChange(state, args, id);
+
+
+                console.log('maybe fetching data', id);
+
                 shouldFetchData = !preventFetch && didArgsChange;
 
                 if (shouldFetchData) {
-                  _context.next = 6;
+                  _context.next = 8;
                   break;
                 }
 
+                console.log('should fetch data is false', id);
                 return _context.abrupt('return');
 
-              case 6:
+              case 8:
 
                 dispatch({
                   args: args,
@@ -4590,14 +4595,16 @@ var ReactReduxRequestView = function (_React$Component) {
                 });
                 fetchId = getUniqueId();
 
+                console.log('creating ' + id + ' fetchID', fetchId);
                 this.fetchId = fetchId;
-                _context.prev = 9;
-                _context.next = 12;
+                _context.prev = 12;
+                _context.next = 15;
                 return fn.apply(undefined, toConsumableArray(args));
 
-              case 12:
+              case 15:
                 data = _context.sent;
 
+                console.log('received ' + id + ' result', fetchId, 'vs', this.fetchId);
                 if (fetchId === this.fetchId) {
                   dispatch({
                     args: args,
@@ -4606,13 +4613,14 @@ var ReactReduxRequestView = function (_React$Component) {
                     type: ACTION_TYPES.DID_SUCCEED
                   });
                 }
-                _context.next = 19;
+                _context.next = 24;
                 break;
 
-              case 16:
-                _context.prev = 16;
-                _context.t0 = _context['catch'](9);
+              case 20:
+                _context.prev = 20;
+                _context.t0 = _context['catch'](12);
 
+                console.log('error caught', id, fetchId, this.fetchId);
                 if (fetchId === this.fetchId) {
                   console.error(_context.t0);
                   dispatch({
@@ -4623,12 +4631,12 @@ var ReactReduxRequestView = function (_React$Component) {
                   });
                 }
 
-              case 19:
+              case 24:
               case 'end':
                 return _context.stop();
             }
           }
-        }, _callee, this, [[9, 16]]);
+        }, _callee, this, [[12, 20]]);
       }));
 
       function maybeFetchData() {
